@@ -1,33 +1,25 @@
 #!/usr/bin/python3
-def check_factor(my_list):
-    """check factor of number in a list"""
-    import sys
+from sys import argv
+from math import sqrt
 
-    if len(my_list) == 0 or my_list is None:
-        print("An error occured")
-    for q in my_list:
-       i = int(q)
-       for j in range(2, sys.maxsize):
-           if i % j == 0:
-               print("{:d}={:d}*{:d}".format(i, int(i/j), j))
-               break
 
-def factoring_challenge():
-    """factor two numbers"""
-    import sys
+def factor():
+    with open(argv[1]) as f:
+        for line in f:
+            num = int(line)
+            print("{:d}=".format(num), end="")
+            if num % 2 == 0:
+                print("{}*2".format(num//2))
+                continue
+            sqn = int(sqrt(num))
+            if sqn % 2 == 0:
+                sqn += 1
+            for i in range(3, sqn + 1, 2):
+                if num % i == 0:
+                    print("{}*{}".format(i, num//i))
+                    break
+            if num % i != 0:
+                print("{}={}*1".format(num, num))
 
-    lis = sys.argv
-    if len(lis) < 2:
-        print("Error!:<USAGE> ./factors filename")
-        exit(98)
-    f_name = ''
-    if len(lis) == 2:
-        f_name = lis[1]
-    if len(lis) == 3:
-        f_name = lis[2]
-    with open(f_name) as file_in:
-        lines = []
-        for line in file_in:
-            lines.append(line)
-    check_factor(lines)
-factoring_challenge()
+
+factor()
